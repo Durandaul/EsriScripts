@@ -1,7 +1,7 @@
 import argparse
 from file_finder import fFinder
 
-def main(drive, directory, fileExt, output, verbose):
+def main(drive, directory, fileExt, output, verbose, delete):
     ''' Create a data object, pass it and the file extention to perform a walk and send to the output function'''
     if verbose:
         print "Starting Main"
@@ -9,6 +9,15 @@ def main(drive, directory, fileExt, output, verbose):
     dataObj = finder.createDataObject()
     walkResults = finder.walk() 
     finder.returnResults()
+    if delete:
+        finder.fRemoval()
+        prompt=raw_input("Run FF again after deletion?(y|n)\n>")
+        while (prompt.lower() !='y' and prompt.lower() !='n'):
+            prompt=raw_input("\n\t>>>Run FF again after deletion?(y|n)\n>")
+        if prompt=='y':
+            main(drive, directory, fileExt, output, verbose, delete)
+        else:
+            exit()
     
 
 
@@ -57,4 +66,4 @@ if __name__ == '__main__':
     drive=args.drive
 
 
-    main(args.drive, args.directory, args.f, args.o, args.v)
+    main(args.drive, args.directory, args.f, args.o, args.v, args.d)

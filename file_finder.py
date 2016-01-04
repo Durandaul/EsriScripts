@@ -20,7 +20,7 @@ class fFinder(object):
         dataObject = {}
         pathToStrWindows ="{drive}:\{directory}".format( drive=self.drive, directory=self.directory ) 
         if self.verbose:
-            print pathToStr
+            print pathToStrWindows
         os.chdir(pathToStrWindows)
         if self.verbose:
             print os.getcwd()
@@ -60,21 +60,26 @@ class fFinder(object):
         else:
             return self.results
             
-    def fDelete(self, fPath):
+    def fDelete(self, fileName):
         ''' File remover function for search and remove. Not fully automated, this requires user input to ensure no mistakes are made. Called by fRemoval'''
-        print "File Path to be deleted: {fpath}".format(fpath=fpath)
-        confirm=raw_input('Are you sure you want to delete this path? (y|n)')
-        while(confirm.lower() != 'y' or confirm.lower() != 'n'):
-            confirm=raw_input('Are you sure you want to delete this path? (y|n)')
+        print "File Path to be deleted: {fileName}".format(fileName=fileName)
+        confirm=raw_input('Are you sure you want to delete this path? (y|n)\n>')
+        print(confirm.lower())
+        while(confirm.lower() != 'y' and confirm.lower() != 'n'):
+            confirm=raw_input('Are you sure you want to delete this path? (y|n)\n>')
         if confirm.lower() == 'y':
-            os.remove(fpath)
+            os.remove(fileName)
+            print("Removed {fileName}".format(fileName=fileName))
             return True
         elif confirm.lower() == 'n':
             return False
 
     def fRemoval(self):
         '''The removal process using the self.results object'''
-        #for pathFile in self.results['results']:
-            # self.fDelete()
-
-        pass
+        paths=self.results['results'].keys()
+        for path in paths:
+            os.chdir(path)
+            for fileName in self.results['results'][path]:
+                if self.verbose:
+                    print fileName
+                self.fDelete(fileName)
