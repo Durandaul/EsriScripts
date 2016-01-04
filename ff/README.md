@@ -1,2 +1,9 @@
-# EsriScripts
-Scripts to assist users of ESRI's ArcMap, ArcGIS
+# FF
+A search and destroy script.
+
+Invoked:
+
+
+python ff.py {drive} {directory_path} -f {file_extension} [-v] [-d]
+
+
